@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Ресурсы библиотеки</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Библиотека</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" th:href="library">Ресурсы</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="clients">Клиенты</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div>
+    <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#paperCarrier"
+            aria-expanded="false" aria-controls="paperCarrier">
+        Бумажные носители
+    </button>
+    <div class="collapse" id="paperCarrier">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Название ресурса</th>
+                <th scope="col">Тип ресурса</th>
+                <th scope="col">Автор</th>
+                <th scope="col">Жанр</th>
+                <th scope="col">Наличие</th>
+                <th scope="col">Год издания</th>
+                <th scope="col">Оценка</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="resource : ${resources}">
+                <th scope="row" th:text="${resource.id}">1</th>
+                <td th:text="${resource?.name}">Book</td>
+                <td th:text="${resource?.author?.fio}">John Doe</td>
+                <td th:text="${resource?.genre?.name}">John</td>
+                <td th:text="${resource?.releaseDate}">01.01.1999</td>
+                <td th:text="${resource?.averageRate}">01.01.1999</td>
+                <td>
+                    <a th:href="@{/library/reviews/{id}(id = ${book.id})}">Посмотреть отзывы</a>
+                </td>
+                <td>
+                    <a th:href="@{/library/edit/{id}/{carrierType}(id = ${book.id},carrierType = ${book.carrierType})}">Изменить</a>
+                </td>
+                <td>
+                    <a th:href="@{/library/delete/{id}(id = ${book.id})}">Удалить</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div>
+    <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#digitalCarrier"
+            aria-expanded="false" aria-controls="digitalCarrier">
+        Электронные носители
+    </button>
+    <div class="collapse" id="digitalCarrier">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Название контента</th>
+                <th scope="col">Автор</th>
+                <th scope="col">Жанр</th>
+                <th scope="col">Год выпуска</th>
+                <th scope="col">Оценка</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="digital : ${digitals}">
+                <th scope="row" th:text="${digital.id}">1</th>
+                <td th:text="${digital?.name}">Book</td>
+                <td th:text="${digital?.author?.fio}">John Doe</td>
+                <td th:text="${digital?.genre?.name}">John</td>
+                <td th:text="${digital?.releaseDate}">01.01.1999</td>
+                <td th:text="${digital?.averageRate}">01.01.1999</td>
+                <td>
+                    <a th:href="@{/resources/reviews/{id}(id = ${digital.id})}">Посмотреть отзывы</a>
+                </td>
+                <td>
+                    <a th:href="@{/resources/edit/{id}/{carrierType}(id = ${digital.id},carrierType=${digital.carrierType})}">Изменить</a>
+                </td>
+                <td>
+                    <a th:href="@{/resources/delete/{id}(id = ${digital.id})}">Удалить</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<input class="btn btn-success" onclick="history.go(-1);" type="button" value="Назад"/>
+</body>
+<script>
+    function onSearchClick() {
+        let id = document.getElementById("search").value;
+        window.open("http://localhost:8080/book" + (id === "" ? "" : "?id=" + id), "_self");
+    }
+</script>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Клиенты</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Библиотека</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" th:href="library">Ресурсы</a>
+            </li>
+            <li class="nav-item" th:if="${#lists.contains(authorities, 'ROLE_ADMIN')}">
+                <a class="nav-link" th:href="clients">Клиенты</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">ФИО</th>
+        <th scope="col">Дата рождения</th>
+        <th scope="col">Пол</th>
+        <th scope="col">Заблокирован</th>
+        <th scope="col">Ресурсы у пользователя</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="reader : ${readers}">
+        <th scope="row" th:text="${reader.id}">1</th>
+        <td th:text="${reader?.fio}">Book</td>
+        <td th:text="${reader?.birthDate}">John Doe</td>
+        <td th:text="${reader?.sex}">01.01.1999</td>
+        <td th:text="${reader?.isBlocked}">John</td>
+        <td>
+            <table class="table">
+                <tbody>
+                <tr th:each="resource : ${reader?.resourcesInUseDto}">
+                    <td th:text="${resource?.name}">Book</td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+        <td>
+            <a th:href="@{/client/edit/{id}/(id = ${reader.id})}">Изменить</a>
+        </td>
+        <td>
+            <a th:href="@{/client/block/{id}(id = ${reader.id})}">Заблокировать</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

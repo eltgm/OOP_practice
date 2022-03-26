@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Изменить ресурс</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+
+<form class="form-group" th:action="@{/resources/edit}" th:method="post">
+    <h1>Ресурс:</h1>
+
+    <div class="form-group">
+        <label for="id-input">ID:</label>
+        <input class="form-control" id="id-input" name="id" readonly="readonly" th:value="${resource.id}"
+               type="text"
+               value="1"/>
+    </div>
+
+    <div class="form-group">
+        <label for="holder-input">Название ресурса:</label>
+        <input class="form-control" id="holder-input" name="name" th:value="${resource.name}" type="text"
+               value="John Doe"/>
+    </div>
+
+    <div class="form-group">
+        <label for="author-input">Автор:</label>
+        <input class="form-control" id="author-input" name="author" th:field="${resource.author.fio}" type="text"
+               value="John Doe"/>
+    </div>
+
+    <div class="form-group">
+        <label for="genre-input">Жанр:</label>
+        <input class="form-control" id="genre-input" name="genre" th:field="${resource.genre.name}" type="text"
+               value="John Doe"/>
+    </div>
+
+    <div class="form-group">
+        <label for="year-input">Год издания:</label>
+        <input class="form-control" id="year-input" name="publishDate" th:field="${resource.releaseDate}"
+               type="text"
+               value="2020"/>
+    </div>
+
+    <div class="form-group">
+        <label for="length-input">Размер/Объем</label>
+        <input class="form-control" id="length-input" name="length" th:field="${resource.length}" type="text"
+               value="15"/>
+    </div>
+    <div hidden>
+        <input th:field="${resource.releaseDate}"/>
+        <input th:field="${resource.availability}"/>
+        <input th:field="${resource.content}"/>
+        <input th:field="${resource.carrierType}"/>
+    </div>
+    <button class="btn btn-primary" type="submit">Сохранить</button>
+</form>
+
+<input class="btn btn-success" onclick="history.go(-1);" type="button" value="Назад"/>
+</body>
+</html>
